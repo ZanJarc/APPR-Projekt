@@ -22,7 +22,7 @@ Ko ga prevedemo, se izvedejo programi, ki ustrezajo, tretji in četrti fazi proj
 * napredna analiza podatkov: `vizualizacijaNOVO.r`
 
 Vnaprej pripravljene funkcije se nahajajo v datotekah v mapi `lib/`.
-Podatkovni viri so v mapi `podatki/`.
+Podatkovni viri so v mapi `uvoz/`.
 
 
 ## Potrebni paketi za R
