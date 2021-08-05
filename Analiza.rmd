@@ -1,0 +1,100 @@
+---
+title: "Poročilo pri predmetu Analiza podatkov v programom R"
+author: "Žan Jarc"
+output:
+  html_document: default
+  pdf_document:
+    includes:
+      in_header: lib/styles.sty
+    latex_engine: xelatex
+runtime: shiny
+---
+
+```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+# Če želimo nastaviti pisave v PDF-ju, odkomentiramo
+# in sledimo navodilom v programu.
+#source("fontconfig.r", encoding="UTF-8")
+
+# Uvoz vseh potrebnih knjižnic
+source("lib/libraries.r", encoding="UTF-8")
+```
+
+# Izbira teme
+
+V projektni nalogi bom analiziral trg rabljenih vozil v Sloveniji. Najprej bom primerjal kateri modeli in katere znamke avtomobilov so najpopularnejši. V nadaljevanju bom analiziral, kakšni avtomobili so se prodajali glede na tip motorja. Analiziral bom tudi kako se cena avtomobila spreminja s starostjo avtomobila, pogojno na znamko avtomobila.
+Avtomobile bom na podlagi njihove kilometrine, starosti in cene uvrstil v skupine in tako vsakemu avtombilu določil, ali gre za nov avto, rabljen avtomobil ali "kripo".
+
+*TABELA 1: PODATKI AVTOMOBILOV
+          - Znamka, Model, Letnik, Kilometrina, Motor, Velikost motorja, Menjalnik, Cena, Cas pridobitve podatkov
+          
+# Obdelava, uvoz in čiščenje podatkov
+
+Uvozi sem podatke o prodajanih avtomobilih v Sloveniji iz spletne strani avto.net. Na spletni strani pod rubriko "Top 100" se dnevno osvežuje seznam zadnjih 100 oglasov. Podatki so v razpredelnici v obliki *tidy data*.
+
+1. 'Znamka' - spremenljivka: ime znamke avtomobila (character)
+  - 'Model' - spremenljvika: ime modela avtomobila (character)
+  - 'Letnik' - meritev: leto prve registracije vozila (integer)
+  - 'Kilometrina' - meritev: število prevoženih kilometrov vozila (integer)
+  - 'Motor' - spremenljvika: vrsta motorja vozila (character)
+  - 'Velikost_motorja' - meritev: volumen motorja (integer)
+  - 'Menjalnik' - spremenljvika: vrsta menjalnika vozila (character)
+  - 'Cena' - meritev: cena vozila (integer)
+  - 'Cas_pridobitve_podatkov' - meritev: datum kdaj so bili pridobljeni podatki (character)
+
+Vir podatkov: [avto.net](https://www.avto.net/Ads/results_100.asp?oglasrubrika=1&prodajalec=2)
+
+# Analiza in vizualizacija podatkov
+
+Kot pričakovano so najbolj prodajani avtomobili ravno tisti, ki jih največkrat vidimo na cesto. Volkswagen prevladuje s svojima modeloma Golf in Passat, sledita mu Audi z modelom A4 in Renault z modeloma Clio in Megane.
+Med modeli z največ oglasi s še BMW Serija 3, Opel Astra, Škoda Octavia, Fiat Punto in Audi A5. Med prodajanimi avtomobili v Sloveniji prevladujejo torej nemški modeli srednjega cenovnega razreda.
+
+```{r vizualizacijaNOVO, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source("vizualizacijaNOVO.r", encoding="UTF-8")
+graf1
+```
+
+Pri pregledu števila avtomobilov glede na vrsto motorja oz. vrsto goriva nas preseneti prevladujoče število vozil z diesel motorjem (skoraj 70% prodajanih avtomobilov se poganja na dieselsko gorivo). Eden izmed razlogov bi lahko bil, da se rabljena vozila ponavadi prodajajo, ko se lastnik odloči za nakup novejšega oz. boljšega avtomobila; tako med oglasi večinoma pristanejo starejši modeli, pri starejših modelih pa prevladujejo diesel motorji.
+
+
+```{r graf 2, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+graf2
+```
+
+Pri pregledu števila oglasov glede na letnik prve registracije vozila opazimo, da smo med oglasi polovili tudi nekaj zelo starih avtomobilov (najstarejši z letnikom prve registracije 1968). Teh osamelcev je nekaj, vse do leta 1995, ki je prvo leto, v katerem imata vsaj dva vozila enak letnik prve registracije. Od leta 1995 naprej število oglasov glede na letnik prve registracije narašča, vse do leta 2007, ko doseže lokalni maksimum. Ob informaciji, da so bili podatki pridobljene v letih 2018 in 2019 in če predpostavimo da je letnik prve registracije enak letniku izdelave vozila, ugotovimo, da je dokaj velik delež prodajanih avtomobilov starih 10 let ali več. Po letu 2007 število oglasov glede na leto prve registracije pada do leta 2012, od tam naprej pa spet narašča in v letu 2015 doseže maksimum, s 55 oglasi vozil, ki imajo prvi letnik registracije 2015. Od leta 2016 pa opazimo strm padec števila oglasov.
+
+Glede na porazdelitev števila oglasov glede na letnik prve registracije vozila bi predpostavil, da se prodajani avtomobili lahko uvrščajo v 3 do 4 skupine.
+  -v prvi skupini so "kripe", zelo stari avtomobili. Sem bi lahko uvrstili tudi "old timerje".
+  -v drugi skupini so vozila starejša od 10 let, pa še brezhibna vozna.
+  -v tretji skupini pa so vozila, ki so mlajša. Glede na porazdelitev, bi postavil mejo na leto 2012. Tretjo skupino bi lahko tudi razbil na dve podskupini, rabljena novejša vozila in nova vozila.
+
+```{r graf 3, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+graf3
+```
+
+Rad bi izmeril, kako močno lastnosti vozila (število prevoženih kilometrov, letnik prve registracije, ipd.) vplivajo na ceno vozilo. Da se izognemo osamelcem, ki bi pokvarili analizo, sem vključil le tista vozila, ki so bila registrirana po letu 1990 in njihova cena ne presega 50.000 EUR.
+  
+```{r tabela 1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+library(knitr)
+kable(znamke, caption = 'Tabela znamk vozil z vsaj 10 oglasi')
+```  
+
+Pri pregledu linearne odvisnosti cene vozila od letnice prve registracije sem dodatno vozila še razdelil glede na znamko vozila (v analizo so le tiste znamke vozil, ki imajo več kot 10 oglasov), saj ima na ceno vozila pomemben vpliv tudi znamka vozila, želel pa sem ugotoviti kako letinca prve registracije vpliva na ceno za vsako znamko.
+
+Za znamke Audi, Hyundai, Nissan, Opel in Peugeot bi lahko s samo letico prve registracije vozila zelo dobro ocenili ceno vozila, saj je linearna regresija dokaj natančna (glede na vrednost R^2^). Vseeno je malce presenetljivo, saj je v analizo vključenih le 12 vozil znamke Nissan in 15 vozil znamke Hyundai, medtem ko je vozil znamke Audi 55.
+
+Presenetljiva je tudi nenatančnost linearne regresije za vozila znamke Volkswagen, kjer je R^2^ dokaj nizek, pa čeprav je v analizo vključenih 78 vozil znamke VW.
+
+V analizi se tudi opazi vpliv znamk na ceno avtomobila. Če je regresijski koeficient za znamke Opel, Peugeot in Renault pod 1000, je koeficient pri bolj priznanih znamkah, kot so Audi, BMW in Mercedes-Benz vsaj 1200.
+
+  
+```{r graf 4, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+graf4
+```
+
+Za pregled razvrščanja vozil sem naredil aplikacijo Shiny. Razvrščanje deluje glede na letnik prve registracije vozila, število prevoženih kilometrov in velikostji motorja.
+
+Pri razvrščanju vozil glede na letnik prve registracije in ob izbiri 3 skupin opazimo, da se vozila razdelijo v teoretične skupine, ki so se opazile že pri grafu 2. V prvi skupini so starejša vozila, v drugi skupini so mlajša, a vseeno rabljena vozila in v tretji skupini novejša vozila.
+
+```{r shiny, echo=FALSE, message=FALSE, warning=FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=600))
+```
