@@ -1,6 +1,4 @@
-# APPR-Projekt
-Projekt pri predmetu Analiza podatkov s programom R
-# Podjetnost v Sloveniji
+# Trg rabljenih avtomobilov v Sloveniji
 
 Avtor: Žan Jarc 
 
