@@ -29,6 +29,10 @@ Avtomobile bom na podlagi njihove kilometrine, starosti in cene uvrstil v skupin
           
 # Obdelava, uvoz in čiščenje podatkov
 
+```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
+source("uvoz/uvoz.r", encoding="UTF-8")
+```
+
 Uvozi sem podatke o prodajanih avtomobilih v Sloveniji iz spletne strani avto.net. Na spletni strani pod rubriko "Top 100" se dnevno osvežuje seznam zadnjih 100 oglasov. Podatki so v razpredelnici v obliki *tidy data*.
 
 1. 'Znamka' - spremenljivka: ime znamke avtomobila (character)
@@ -48,8 +52,8 @@ Vir podatkov: [avto.net](https://www.avto.net/Ads/results_100.asp?oglasrubrika=1
 Kot pričakovano so najbolj prodajani avtomobili ravno tisti, ki jih največkrat vidimo na cesto. Volkswagen prevladuje s svojima modeloma Golf in Passat, sledita mu Audi z modelom A4 in Renault z modeloma Clio in Megane.
 Med modeli z največ oglasi s še BMW Serija 3, Opel Astra, Škoda Octavia, Fiat Punto in Audi A5. Med prodajanimi avtomobili v Sloveniji prevladujejo torej nemški modeli srednjega cenovnega razreda.
 
-```{r vizualizacijaNOVO, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-source("vizualizacijaNOVO.r", encoding="UTF-8")
+```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 graf1
 ```
 
@@ -67,8 +71,9 @@ Glede na porazdelitev števila oglasov glede na letnik prve registracije vozila 
   -v drugi skupini so vozila starejša od 10 let, pa še brezhibna vozna.
   -v tretji skupini pa so vozila, ki so mlajša. Glede na porazdelitev, bi postavil mejo na leto 2012. Tretjo skupino bi lahko tudi razbil na dve podskupini, rabljena novejša vozila in nova vozila.
 
-```{r graf 3, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-graf3
+```{r analiza, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source("analiza/analiza.r", encoding="UTF-8")
+graf1
 ```
 
 Rad bi izmeril, kako močno lastnosti vozila (število prevoženih kilometrov, letnik prve registracije, ipd.) vplivajo na ceno vozilo. Da se izognemo osamelcem, ki bi pokvarili analizo, sem vključil le tista vozila, ki so bila registrirana po letu 1990 in njihova cena ne presega 50.000 EUR.
@@ -98,3 +103,7 @@ Pri razvrščanju vozil glede na letnik prve registracije in ob izbiri 3 skupin 
 ```{r shiny, echo=FALSE, message=FALSE, warning=FALSE}
 shinyAppDir("shiny", options=list(width="100%", height=600))
 ```
+
+V tem projektu sem preveril, kako nekatere karakteristike trga rabljenih avtomobilov Sloveniji. Večina najosnovenjših ugotovitev, npr. najbolj prodajani modeli in znamke me niso presenečale, Volkswagen in nemška podjetja še vedno trdno držijo primat na trgu vozil v Sloveiji.
+
+V analizo je bilo vključenih skoraj 600 oglasov za vozila. Za popolnejšo analizo, bi potreboval večjo količino podatkov, ki bi jih pridobival vsak dan. S tem bi lahko tudi ocenil/potrdil dvig cen rabljenih avtomobilov v letih 2020 in 2021, prav tako pa bi lahko opazoval ceno enakih modelov vozil skozi čas.

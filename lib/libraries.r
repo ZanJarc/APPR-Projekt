@@ -1,4 +1,5 @@
 library(knitr)
+library(dplyr)
 library(rvest)
 library(gsubfn)
 library(reshape2)
