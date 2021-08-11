@@ -1,13 +1,14 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov v programom R"
 author: "Žan Jarc"
-output:
+output: 
   html_document: default
-  pdf_document:
+  pdf_document: 
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
 runtime: shiny
+  
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -24,18 +25,15 @@ source("lib/libraries.r", encoding="UTF-8")
 V projektni nalogi bom analiziral trg rabljenih vozil v Sloveniji. Najprej bom primerjal kateri modeli in katere znamke avtomobilov so najpopularnejši. V nadaljevanju bom analiziral, kakšni avtomobili so se prodajali glede na tip motorja. Analiziral bom tudi kako se cena avtomobila spreminja s starostjo avtomobila, pogojno na znamko avtomobila.
 Avtomobile bom na podlagi njihove kilometrine, starosti in cene uvrstil v skupine in tako vsakemu avtombilu določil, ali gre za nov avto, rabljen avtomobil ali "kripo".
 
-*TABELA 1: PODATKI AVTOMOBILOV
-          - Znamka, Model, Letnik, Kilometrina, Motor, Velikost motorja, Menjalnik, Cena, Cas pridobitve podatkov
-          
 # Obdelava, uvoz in čiščenje podatkov
 
 ```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
-source("uvoz/uvoz.r", encoding="UTF-8")
+source("uvoz/uvoz.R", encoding="UTF-8")
 ```
 
 Uvozi sem podatke o prodajanih avtomobilih v Sloveniji iz spletne strani avto.net. Na spletni strani pod rubriko "Top 100" se dnevno osvežuje seznam zadnjih 100 oglasov. Podatki so v razpredelnici v obliki *tidy data*.
 
-1. 'Znamka' - spremenljivka: ime znamke avtomobila (character)
+  - 'Znamka' - spremenljivka: ime znamke avtomobila (character)
   - 'Model' - spremenljvika: ime modela avtomobila (character)
   - 'Letnik' - meritev: leto prve registracije vozila (integer)
   - 'Kilometrina' - meritev: število prevoženih kilometrov vozila (integer)
@@ -53,7 +51,7 @@ Kot pričakovano so najbolj prodajani avtomobili ravno tisti, ki jih največkrat
 Med modeli z največ oglasi s še BMW Serija 3, Opel Astra, Škoda Octavia, Fiat Punto in Audi A5. Med prodajanimi avtomobili v Sloveniji prevladujejo torej nemški modeli srednjega cenovnega razreda.
 
 ```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-source("vizualizacija/vizualizacija.r", encoding="UTF-8")
+source("vizualizacija/vizualizacija.R", encoding="UTF-8")
 graf1
 ```
 
@@ -72,7 +70,7 @@ Glede na porazdelitev števila oglasov glede na letnik prve registracije vozila 
   -v tretji skupini pa so vozila, ki so mlajša. Glede na porazdelitev, bi postavil mejo na leto 2012. Tretjo skupino bi lahko tudi razbil na dve podskupini, rabljena novejša vozila in nova vozila.
 
 ```{r analiza, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-source("analiza/analiza.r", encoding="UTF-8")
+source("analiza/analiza.R", encoding="UTF-8")
 graf1
 ```
 
