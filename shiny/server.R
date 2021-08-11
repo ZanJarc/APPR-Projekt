@@ -1,9 +1,7 @@
-library(shiny)
-
 function(input, output, session) {
   
   selectedData <- reactive({
-    data[, c(input$xcol, input$ycol)]
+    data_shiny[, c(input$xcol, input$ycol)]
   })
   
   clusters <- reactive({

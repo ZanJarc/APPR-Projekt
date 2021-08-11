@@ -15,7 +15,7 @@ graf4 <- ggplot(filter(data_relavantne_znamke, (Letnik > 1990 & Cena < 50000)), 
   stat_regline_equation(label.y = 35000, aes(label = ..rr.label..), size = 3) +
   labs(title = "Linearna odvisnost cene vozila od leta prve registacije, razdeljeno na znamko vozila",
        x = "Letnik prve registracije",
-       y = "Cena") +
+       y = "Cena (€)") +
   facet_wrap(~ Znamka, ncol = 3) 
 
 

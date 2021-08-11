@@ -25,3 +25,11 @@ data <- data %>% subset(select = -c(Mesec_pridobitve_podatkov, Dan_pridobitve_po
 
 data <- data[data$Znamka != "",] #napacen zajem podatkov
 
+#Data prep for shiy
+data_shiny <- data
+
+names(data_shiny) <- c("Znamka", "Model", "Letnik", "Kilometrina (km)", "Motor", "Velikost_motorja (ccm)", "Menjalnik", "Cena (€)","Cas_pridobitve_podatkov", "Celo_ime")
+
+
+
+
